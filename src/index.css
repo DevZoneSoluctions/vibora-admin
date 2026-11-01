@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — Vibora brand palette (extracted from logo.png)
+   Logo dominant colors: electric blue #4B35FF, vivid purple #8B35FF,
+   hot pink #FF1B8D, orange-gold #FF8C00, dark navy bg #0D0D1A
+───────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Brand — Extracted from Vibora Logo & Website */
+  --color-primary:     #a855f7;   /* vivid purple from logo */
+  --color-secondary:   #ec4899;   /* hot pink from logo    */
+  --color-accent:      #5b8def;   /* electric blue from logo */
+  --color-gold:        #f5c518;   /* warm gold accent */
+  --color-magenta:     #d946ef;   /* rich magenta */
+
+  /* Background scale — dynamic dark/light */
+  --color-bg:          var(--vb-bg);
+  --color-surface:     var(--vb-surface);
+  --color-surface-2:   var(--vb-surface-2);
+
+  /* Text — dynamic dark/light */
+  --color-text:        var(--vb-text);
+  --color-text-muted:  var(--vb-text-muted);
+
+  /* Border */
+  --color-border:      var(--vb-border);
+
+  /* Semantic */
+  --color-success:     #22c55e;
+  --color-danger:      #ef4444;
+  --color-warning:     #f59e0b;
+  --color-info:        #5b8def;
+
+  /* Font */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --vb-bg:          #0a0620;
+  --vb-surface:     #0e0826;
+  --vb-surface-2:   #150c38;
+  --vb-text:        #f5ede0;
+  --vb-text-muted:  #b8aec8;
+  --vb-border:      rgba(168, 85, 247, 0.2);
+}
+
+html.light, [data-theme="light"] {
+  --vb-bg:          #f8f6fc;
+  --vb-surface:     #ffffff;
+  --vb-surface-2:   #f1edfa;
+  --vb-text:        #2e1065;
+  --vb-text-muted:  #7e6b9e;
+  --vb-border:      #ede7f6;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE LAYER
+───────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+  }
+
+  /* Thin custom scrollbar */
+  ::-webkit-scrollbar        { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track  { background: transparent; }
+  ::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 99px; }
+
+  /* Select / option dark styling */
+  option {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Brand gradient — matching Vibora website & logo */
+  .brand-gradient {
+    background: linear-gradient(135deg, #5b8def 0%, #a855f7 50%, #ec4899 100%);
+  }
+
+  .brand-gradient-text {
+    background: linear-gradient(135deg, #5b8def 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass morphism card with purple-pink glow border */
+  .glass {
+    background-color: rgba(14, 8, 38, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+  }
+
+
+  /* Page fade-in */
+  .animate-fade-in {
+    animation: fade-in 0.35s ease-out both;
+  }
+
+  /* Shake for bad login */
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shake {
+    10%, 90%  { transform: translateX(-2px); }
+    20%, 80%  { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60%  { transform: translateX(6px); }
+  }
+
+  /* Tailwind v4 animate-in / zoom-in polyfill (used by Modal) */
+  .animate-in {
+    animation-fill-mode: both;
+  }
+  .fade-in {
+    animation-name: fade-in;
+    animation-duration: 0.2s;
+  }
+  .zoom-in-95 {
+    animation-name: zoom-in-95;
+    animation-duration: 0.2s;
+  }
+  /* Prevent Chrome / Safari / Edge autofill background turning white */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #130a30 inset !important;
+    -webkit-text-fill-color: #f5ede0 !important;
+    caret-color: #f5ede0 !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
